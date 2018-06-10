@@ -1,0 +1,17 @@
+.arrowButton {
+  position: absolute;
+  top: 40vh;
+  font-size: 40px;
+  transition: all .3s ease;
+}
+.arrowButton:hover {
+  transform: scale(1.2);
+}
+
+.arrowButton.prev {
+  left: 15%;
+}
+
+.arrowButton.next {
+  right: 15%;
+}

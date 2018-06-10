@@ -1,0 +1,15 @@
+.shipping-component {
+  position: absolute;
+  width: 100%;
+}
+
+.faded {
+  display: none;
+  opacity: 0;
+  transition: all .35s ease-in-out;
+}
+
+.faded.fadeIn {
+  display: block;
+  opacity: 1;
+}

@@ -1,0 +1,47 @@
+.review-block, .promo-block, .total-block {
+  margin-bottom: 1em;
+  padding: 10px;
+  background-color: #e3e3e3;
+  border-radius: 5px;
+}
+
+.review-block {
+  min-height: 230px;
+}
+
+.promo-block {
+  min-height: 125px;
+}
+
+.total-block {
+  min-height: 150px;
+}
+
+.review-block h2, .promo-block h2, .total-block h2 {
+  font-size: 1.4rem;
+}
+
+.review-block h3, .promo-block h3, .total-block h3 {
+  font-size: 1.15rem;
+  text-decoration: underline;
+}
+
+.review-block p, .promo-block p, .total-block p {
+  margin: 0;
+}
+
+.review-block a, .promo-block a, .total-block a {
+  transition: all .35s;
+}
+
+.review-block a:hover, .promo-block a:hover, .total-block a:hover {
+  color: #ff0000;
+}
+
+.total-hr {
+  border: solid 1px rgba(0, 0, 0, 0.38);
+}
+
+.max13 {
+  max-width: 13rem;
+}
