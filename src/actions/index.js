@@ -83,6 +83,9 @@ export function calcOrderItemTotal(orderItems) {
 }
 
 export function buildOrder(data) {
+  const orderSubtotal = Math.floor(data.subtotal * 100);
+  data.promo.orderSubTotal = orderSubtotal;
+
   return {
     merchantId: 'sample string 1',
     orderItems: data.orderItems,

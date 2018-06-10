@@ -165,19 +165,11 @@ export class Main extends Component {
 
   updateOrder(key, data) {
     let order = this.state.order;
+    order[key] = data;
 
     this.setState({
-      [order[key]]: data
+      order: order
     });
-
-    if (typeof(this.state.order.promo) === 'object') {
-      const subtotal = this.state.order.subtotal * 100;
-      order.subtotal = subtotal;
-
-      this.setState({
-        order: order
-      });
-    }
   }
 
   componentDidMount() {
