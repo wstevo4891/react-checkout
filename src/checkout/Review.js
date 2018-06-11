@@ -12,7 +12,9 @@ import '../styles/review.css';
 export class Review extends React.Component {
   constructor(props) {
     super(props);
-    this.state = this.props.data;
+    this.state = {
+      order: this.props.order
+    }
 
     this.updateData = this.updateData.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -43,6 +45,11 @@ export class Review extends React.Component {
     return ((item.price * 0.01) * item.qtyOrdered).toFixed(2);
   }
 
+  componentDidMount() {
+    console.log('Review Mounted!');
+    console.log(this.state);
+  }
+
   render() {
     const footerSpace = {
       marginBottom: '6em'
@@ -69,7 +76,7 @@ export class Review extends React.Component {
             <ShippingMethodWidget
               data={this.props.order.shippingMethod}
               shippingOptions={this.props.shippingOptions}
-              selectedMethod={this.props.order.selectedMethod}
+              selectedOption={this.props.selectedOption}
               updateOrder={this.props.updateOrder}
               updateTotal={this.props.updateTotal} />
           </div>

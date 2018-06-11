@@ -1,7 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 // import { Motion, spring } from 'react-motion';
-import axios from 'axios';
 
 import { CheckoutNav } from '../checkout/CheckoutNav';
 import { Contact } from '../checkout/Contact';
@@ -16,13 +15,11 @@ export class Checkout extends React.Component {
 
     this.state = {
       step: 1,
-      order: this.props.order,
-      shippingOptions: []
+      order: this.props.order
     };
 
     this.nextStep = this.nextStep.bind(this);
     this.previousStep = this.previousStep.bind(this);
-    this.fetchShippingOptions = this.fetchShippingOptions.bind(this);
   }
 
   nextStep() {
@@ -35,33 +32,6 @@ export class Checkout extends React.Component {
     this.setState({
       step: this.state.step - 1
     });
-  }
-
-  fetchShippingOptions() {
-    const self = this;
-    axios.get('http://jst.edchavez.com/api/shipping/')
-      .then(function(response) {
-        self.setState({
-          shippingOptions: response.data
-        });
-        sessionStorage.setItem('shippingOptions', JSON.stringify(response.data));
-        console.log("shippingOptions: " + JSON.stringify(response.data));
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  }
-
-  componentDidMount() {
-    if (sessionStorage.getItem('shippingOptions')) {
-      const shipOptions = JSON.parse(sessionStorage.getItem('shippingOptions'));
-      console.log("shippingOptions: " + JSON.stringify(shipOptions));
-      this.setState({
-        shippingOptions: shipOptions
-      });
-    } else {
-      this.fetchShippingOptions();
-    }
   }
 
   render() {
@@ -130,11 +100,12 @@ export class Checkout extends React.Component {
               <Review
                 previousStep={this.previousStep}
                 order={this.props.order}
+                shippingOptions={this.props.shippingOptions}
+                selectedOption={this.props.selectedOption}
                 addToCart={this.props.addToCart}
                 removeFromCart={this.props.removeFromCart}
                 updateOrder={this.props.updateOrder}
                 updateTotal={this.props.updateTotal}
-                shippingOptions={this.state.shippingOptions}
                 headerStyle={headerStyle} />
             } />
         </Switch>

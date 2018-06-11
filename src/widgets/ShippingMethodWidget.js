@@ -1,5 +1,6 @@
 import React from 'react';
 import date from 'date-and-time';
+import axios from 'axios';
 
 import '../styles/widgets.css';
 
@@ -9,19 +10,19 @@ export class ShippingMethodWidget extends React.Component {
     this.state = {
       shippingMethod: this.props.data,
       shippingOptions: this.props.shippingOptions,
-      selectedMethod: this.props.selectedMethod
+      selected: this.props.selectedOption
     }
 
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
-    const target = document.getElementById("selectShipMethod");
+    const target = event.target;
     const val = target.value;
-    let index = parseInt(val, 10);
-    let data = this.state.shippingOptions[index];
+    const index = parseInt(val, 10);
+    const data = this.state.shippingOptions[index];
 
-    let today = new Date();
+    const today = new Date();
     let delivery_date;
 
     if (data.shipOptionId === 'USStandard') {
@@ -36,7 +37,8 @@ export class ShippingMethodWidget extends React.Component {
     let prom = new Promise((resolve) => {
       resolve(self.setState({
         shippingMethod: data,
-        selectedMethod: val
+        selectedMethod: val,
+        selected: index
       }));
     });
     prom.then(function() {
@@ -44,21 +46,37 @@ export class ShippingMethodWidget extends React.Component {
       self.props.updateTotal();
     });
 
-    let display_div = document.getElementById("display_shipping_info");
+    // let display_div = document.getElementById("display_shipping_info");
 
-    if ( display_div.classList.contains('show') ) {
-      return;
-    } else {
-      display_div.classList.add('show');
-    }
+    // if ( display_div.classList.contains('show') ) {
+    //   return;
+    // } else {
+    //   display_div.classList.add('show');
+    // }
 
     console.log("Apply shipping method!");
   }
 
-  render() {
-    let ship_options = this.state.shippingOptions;
+  componentDidMount() {
+    console.log('ShippingMethodWidget Mounted!');
+    console.log(this.state);
+  }
 
-    const ship_cost = this.state.shippingMethod.shipCost * 0.01;
+  componentDidUpdate() {
+    console.log('ShippingMethodWidget Updated!');
+    console.log(this.state);
+  }
+
+  render() {
+    const data = this.state;
+
+    const ship_options = data.shippingOptions;
+
+    const method = data.shippingMethod;
+
+    const selected = data.selected;
+
+    const ship_cost = method.shipCost * 0.01;
 
     return (
       <div className="review-block">
@@ -70,8 +88,8 @@ export class ShippingMethodWidget extends React.Component {
               id="selectShipMethod"
               type="submit"
               name="shipOptionName"
+              value={selected}
               className="form-control max13"
-              value={this.state.selectedMethod}
               onChange={this.handleChange} >
               <option value="">Select Shipping Method</option>
               {
@@ -83,9 +101,9 @@ export class ShippingMethodWidget extends React.Component {
           </div>
         </form>
 
-        <div id="display_shipping_info" className="collapse">
-          <p>Carrier: {this.state.shippingMethod.carrierName}</p>
-          <p>Arriving On: {this.state.shippingMethod.est_delivery_date}</p>
+        <div id="display_shipping_info">
+          <p>Carrier: {method.carrierName}</p>
+          <p>Arriving On: {method.est_delivery_date}</p>
           <p>Cost: ${ship_cost.toFixed(2)}</p>
         </div>
       </div>

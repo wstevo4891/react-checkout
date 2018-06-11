@@ -13,7 +13,9 @@ export class Main extends Component {
     super(props);
     this.state = {
       inventory: [],
-      order: OrderModel.order
+      order: OrderModel.order,
+      shippingOptions: [],
+      selectedOption: ''
     };
 
     this.addToCart = this.addToCart.bind(this);
@@ -32,6 +34,21 @@ export class Main extends Component {
         });
         console.log("inventory: " + JSON.stringify(response.data));
         sessionStorage.setItem('inventory', JSON.stringify(response.data.items));
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
+  fetchShippingOptions() {
+    const self = this;
+    axios.get('http://jst.edchavez.com/api/shipping/')
+      .then(function(response) {
+        self.setState({
+          shippingOptions: response.data
+        });
+        sessionStorage.setItem('shippingOptions', JSON.stringify(response.data));
+        console.log("shippingOptions: " + JSON.stringify(response.data));
       })
       .catch(function(error) {
         console.log(error);
@@ -170,6 +187,14 @@ export class Main extends Component {
     this.setState({
       order: order
     });
+
+    if (key === 'shippingMethod') {
+      const selected = this.state.shippingOptions.indexOf(data);
+
+      this.setState({
+        selectedOption: selected
+      });
+    }
   }
 
   componentDidMount() {
@@ -183,6 +208,16 @@ export class Main extends Component {
       });
     } else {
       this.fetchInventory();
+    }
+
+    if (sessionStorage.getItem('shippingOptions')) {
+      const shipOptions = JSON.parse(sessionStorage.getItem('shippingOptions'));
+      console.log("shippingOptions: " + JSON.stringify(shipOptions));
+      this.setState({
+        shippingOptions: shipOptions
+      });
+    } else {
+      this.fetchShippingOptions();
     }
 
     if (sessionStorage.getItem('order')) {
@@ -232,6 +267,8 @@ export class Main extends Component {
             render={() =>
               <Checkout
                 order={this.state.order}
+                shippingOptions={this.state.shippingOptions}
+                selectedOption={this.state.selectedOption}
                 updateOrder={this.updateOrder}
                 updateTotal={this.updateTotal}
                 addToCart={this.addToCart}

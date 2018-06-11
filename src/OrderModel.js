@@ -49,30 +49,7 @@ const OrderModel = {
       state: '',
       zipcode: ''
     }
-  },
-  defaultOrderItems: [
-    {
-      itemId: 'RAM-B-UN7BU',
-      name: 'X-Grip Phone Holder',
-      description: 'UNPKD X-GRIP UNIVERSAL HOLDER W/ 1" BALL',
-      price: 2799,
-      qtyOrdered: 2
-    },
-    {
-      itemId: 'RAM-B-201U',
-      name: 'B-Size Double Socket Arm',
-      description: 'UNPKD RAM DOUBLE SOCKET ARM FOR 1" BALL',
-      price: 1399,
-      qtyOrdered: 2
-    },
-    {
-      itemId: 'RAM-B-231ZU',
-      name: 'B-Size Rail Base',
-      description: 'UNPKD RAM RAIL BASE W/BALL & ZINC U-BOLT',
-      price: 1549,
-      qtyOrdered: 2
-    }
-  ]
+  }
 }
 
 export default OrderModel;
